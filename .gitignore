@@ -1,0 +1,4 @@
+node_modules/
+.idea/
+config/secret.js
+config/sequelize-config.json

@@ -1,0 +1,35 @@
+{
+  "development": {
+    "username": "__",
+    "password": "__",
+    "database": "__",
+    "host": "__",
+    "port": 5432,
+    "dialect": "postgres",
+    "define": {
+      "freezeTableName": true
+    }
+  },
+  "test": {
+    "username": "__",
+    "password": "__",
+    "database": "__",
+    "host": "__",
+    "port": 5432,
+    "dialect": "postgres",
+    "define": {
+      "freezeTableName": true
+    }
+  },
+  "production": {
+    "username": "__",
+    "password": "__",
+    "database": "__",
+    "host": "__",
+    "port": 5432,
+    "dialect": "postgres",
+    "define": {
+      "freezeTableName": true
+    }
+  }
+}

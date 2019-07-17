@@ -1,0 +1,191 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Express Postgress Boiler API
+  description: Swagger file for Express Postgress Boiler
+  license:
+    name: MIT
+    url: 'https://opensource.org/licenses/MIT'
+host: 'localhost:4000'
+basePath: /api/site/v1
+tags:
+  - name: Users
+    description: API for admin
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+#****************************************
+#**************** Paths *****************
+#****************************************
+paths:
+#***************** Auth
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      description: Create new user in system
+      parameters:
+        - name: user
+          in: body
+          description: User that we want to create
+          schema:
+            $ref: '#/definitions/UserWithVendorName'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: object (containing token)
+          schema:
+            $ref: '#/definitions/AuthResponse'
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      description: Login with user credentials
+      parameters:
+        - name: user
+          in: body
+          description: User that we want to create
+          schema:
+            $ref: '#/definitions/User'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: object (containing token)
+          schema:
+            $ref: '#/definitions/AuthResponse'
+
+
+#***************** Articles
+  /article:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Article
+      description: Find all articles
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: articles
+          schema:
+            $ref: '#/definitions/Articles'
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Article
+      description: Add new article
+      parameters:
+        - name: article
+          in: body
+          description: Article details
+          schema:
+            $ref: '#/definitions/Article'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: event
+          schema:
+            $ref: '#/definitions/Article'
+
+  /article/{articleId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Article
+      description: Find one Article
+      parameters:
+        - in: path
+          name: portfolioId
+          type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: article
+          schema:
+            $ref: '#/definitions/Article'
+
+
+#*********************************************
+#********* Security and Definitions **********
+#*********************************************
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  AuthResponse:
+    properties:
+      error:
+        type: boolean
+      token:
+        type: string
+
+#********** definitions/User
+  User:
+    required:
+      - email
+      - password
+    properties:
+      email:
+        type: string
+        example: 'test1@gmail.com'
+      password:
+        type: string
+        example: 'Test1234'
+    example:
+        email: 'test1@gmail.com'
+        password: 'Test1234'
+  UserWithVendorName:
+    required:
+      - email
+      - password
+    properties:
+      email:
+        type: string
+        example: 'test1@gmail.com'
+      password:
+        type: string
+        example: 'Test1234'
+
+#********** definitions/Articles
+  Article:
+    properties:
+      id:
+        type: number
+        example: 1
+      title:
+        type: string
+        example: 'photographer'
+      slug:
+        type: string
+        example: 'photographer'
+      shortContent:
+        type: string
+        example: "Don't spend too much"
+      content:
+        type: string
+        example: "Don't spend too much"
+      thumbnailImage:
+        type: string
+        example: 'http://res.cloudinary.com/www-weddingpenguin-co/image/upload/v1540548073/iss_10288_02433_q5wg7q.jpg'
+      image:
+        type: string
+        example: 'http://res.cloudinary.com/www-weddingpenguin-co/image/upload/v1540548073/iss_10288_02433_q5wg7q.jpg'
+
+  Articles:
+    type: array
+    items:
+      $ref: '#/definitions/Article'
